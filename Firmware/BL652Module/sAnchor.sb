@@ -1,0 +1,95 @@
+//Example :: BleAdvertStart.sb
+DIM addr$ : addr$=""
+DIM rc, dp, ret
+DIM advRpt$ : advRpt$=""
+DIM scRpt$ : scRpt$=""
+
+
+DIM discovMode : discovMode=2 
+DIM advAppearance : advAppearance = 0 
+DIM maxDevName : maxDevName = 10 
+
+FUNCTION HndlrBlrAdvTimOut() 
+   PRINT "\nAdvert stopped via timeout"
+   PRINT "\nExiting..."
+ENDFUNC 0
+
+DIM strLength,str$
+DIM ad$
+
+ret=1
+
+FUNCTION HndlrUartRx() 
+    rc = UartReadMatch(str$,0x0d) 
+    IF rc==0 THEN
+        //PRINT "\nlistening\r"
+    ELSE
+        //PRINT "\nData has arrived\r"
+        IF StrGetChr(str$,0) == 113 THEN //send 'q' to exit application
+            ret = 0
+        ELSEIF StrGetChr(str$,0) == 105 THEN // send 'i' to sent BLE advert identity, e.g., "A0A2" - anchor0 antenna 2
+            ad$=MID$(str$, 1, 4)
+            IF BleAdvRptInit(advRpt$, discovMode, advAppearance, maxDevName)==0 THEN 
+                //PRINT "\nAdvert report initialised" 
+            ENDIF
+            IF BleAdvRptAppendAD(advRpt$,0x31,ad$)==0 THEN  //6 bytes will be used up in the report 
+                //PRINT "\nAD with data '";ad$;"' was appended to the advert report" 
+            ENDIF
+
+            PRINT BleAdvRptsCommit(advRpt$, scRpt$)
+        ENDIF
+        str$=""
+    ENDIF
+
+    
+ENDFUNC ret //remain blocked in WAITEVENT
+
+//--- Open comport so that DCD and RI are inputs 
+rc = UartOpen(115200,0,0,"CN81H") //Open as DCE, no parity, 8 databits, //1 stopbits, cts/rts flow control 
+IF rc!= 0 THEN 
+    PRINT "\nFailed to open UART interface with error code ";INTEGER.H' rc 
+ELSE 
+    //PRINT "\nUART open success" 
+ENDIF
+
+
+rc = BleTxPwrWhilePairing(4) 
+PRINT "\nrc = ";rc
+
+dp=0 : rc = BleTxPowerSet(dp)
+//PRINT "\nTx power : desired= ";dp," "," actual= "; SysInfo(2008)
+//The advertising interval is set to 25 milliseconds. The module will stop 
+//advertising after 60000 ms (1 minute)
+
+
+
+
+
+IF BleAdvRptInit(advRpt$, discovMode, advAppearance, maxDevName)==0 THEN 
+    //PRINT "\nAdvert report initialised" 
+ENDIF
+
+
+
+ad$="A9A9"
+
+IF BleAdvRptAppendAD(advRpt$,0x31,ad$)==0 THEN  //6 bytes will be used up in the report 
+    //PRINT "\nAD with data '";ad$;"' was appended to the advert report" 
+ENDIF
+
+PRINT BleAdvRptsCommit(advRpt$, scRpt$)
+
+IF BleAdvertStart(3,addr$,100,0,0)==0 THEN	  
+    //PRINT "\nAdverts Started\n"					
+	//PRINT "\nIf you search for bluetooth devices on your device, you should see 'Laird BL652'\n"
+ELSE											
+    PRINT "\n\nAdvertisement not successful"
+ENDIF
+
+
+ 
+
+ONEVENT  EVBLE_ADV_TIMEOUT  CALL HndlrBlrAdvTimOut
+ONEVENT EVUARTRX CALL HndlrUartRx
+
+WAITEVENT

@@ -1,0 +1,28 @@
+//Example :: BleAdvertStart.sb
+DIM addr$ : addr$=""
+
+FUNCTION HndlrBlrAdvTimOut() 
+   PRINT "\nAdvert stopped via timeout"
+   PRINT "\nExiting..."
+ENDFUNC 0
+
+DIM rc, dp
+
+rc = BleTxPwrWhilePairing(4) 
+PRINT "\nrc = ";rc
+
+dp=0 : rc = BleTxPowerSet(dp)
+PRINT "\nTx power : desired= ";dp," "," actual= "; SysInfo(2008)
+//The advertising interval is set to 25 milliseconds. The module will stop 
+//advertising after 60000 ms (1 minute)
+IF BleAdvertStart(3,addr$,100,0,0)==0 THEN	  
+    PRINT "\nAdverts Started\n"					
+	PRINT "\nIf you search for bluetooth devices on your device, you should see 'Laird BL652'\n"
+ELSE											
+    PRINT "\n\nAdvertisement not successful"
+ENDIF
+
+
+ONEVENT  EVBLE_ADV_TIMEOUT  CALL HndlrBlrAdvTimOut
+
+WAITEVENT
