@@ -1,0 +1,104 @@
+﻿<Controls:MetroWindow x:Class="BleIPS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:BleIPS"
+        mc:Ignorable="d"
+        Title="BLE IPS" Height="450" Width="1000">
+    <Controls:MetroWindow.Resources>
+
+        <DataTemplate x:Key ="ListBoxAdvers">
+            <DockPanel Height="24" ToolTip="na">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding ReportsCount}" Margin="0,0,5,0" />
+                <TextBlock DockPanel.Dock="Left" Text="{Binding AdvAddres, StringFormat={}{0:X}}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key ="ListBoxAnchor">
+            <DockPanel Height="24" ToolTip="na">
+                <TextBlock DockPanel.Dock="Right" Text="{Binding TagsCount}" Margin="5,0,5,0" />
+                <TextBlock DockPanel.Dock="Right" Text="{Binding AnchorState}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding Eui64, StringFormat={}{0:X}}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </DockPanel>
+        </DataTemplate>
+
+
+    </Controls:MetroWindow.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="22"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Name="DataGridIPS" Style="{DynamicResource AzureDataGrid}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="5,0" BorderThickness="0,0,1,0" Grid.RowSpan="5" ScrollViewer.ScrollChanged="DataGridIPS_ScrollChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Time, StringFormat={}{0:HH:mm:ss:fff}}" Header="Time" IsReadOnly="True" Width="80" />
+                <DataGridTextColumn Binding="{Binding Eui, StringFormat={}{0:X}}" Header="Eui" IsReadOnly="True" MinWidth="110" />
+                <DataGridTextColumn Binding="{Binding AdvAddr, StringFormat={}{0:X}}" Header="AdvAddr" IsReadOnly="True" MinWidth="110" />
+                
+                <DataGridTextColumn Binding="{Binding Ant1Ch}" Header="Ch1" IsReadOnly="True" MinWidth="20" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant1}" Header="Ant 1" IsReadOnly="True" MinWidth="40" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant2Ch}" Header="Ch2" IsReadOnly="True" MinWidth="20" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant2}" Header="Ant 2" IsReadOnly="True" MinWidth="40" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant3Ch}" Header="Ch3" IsReadOnly="True" MinWidth="20" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant3}" Header="Ant 3" IsReadOnly="True" MinWidth="40" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant4Ch}" Header="Ch4" IsReadOnly="True" MinWidth="20" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Ant4}" Header="Ant 4" IsReadOnly="True" MinWidth="40" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Row="0" Grid.Column="1" Name="ButtonResetTime" VerticalAlignment="Center" HorizontalAlignment="Right" Height="20" Content="Reset Time" MinHeight="20" Padding="5,0" Margin="30,0,0,0" Click="ButtonResetTime_Click" />
+        <Grid Grid.Column="1" Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="27"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Name="ButtonFilterEnable" Height="20" Content="Filter On" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Width="75" Click="ButtonFilterEnable_Click" />
+            <Button Name="ButtonFilterDisable" Height="20" Content="Filter Off" HorizontalAlignment="Right" Grid.Row="0" VerticalAlignment="Top" Width="75" Click="ButtonFilterDisable_Click" />
+            <Button Name="ButtonFilterAdd" Height="20" Content="Filter add" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="ButtonFilterAdd_Click" />
+            <Button Name="ButtonFilterAddFrom" Height="20" Content="Filter add from" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="102" Click="ButtonFilterAddFrom_Click" />
+
+            <Button Name="ButtonSetRemote" Height="20" Content="Remote mode" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Width="87" Click="ButtonSetRemote_Click"/>
+            <Button Name="ButtonSetSelf" Height="20" Content="Self mode" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Top" Width="87" Click="ButtonSetSelf_Click"/>
+
+            <Button Grid.Row="3" Name="ButtonClear" VerticalAlignment="Center" Height="20" Content="Clear" Click="ButtonClear_Click" MinHeight="20" Padding="5,0" />
+            <ToggleButton Grid.Row="4" Name="ButtonAutoScroll" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="44" Content="ASCR"  Click="ButtonAutoScroll_Click" MinHeight="20" Padding="5,0" IsChecked="True"/>
+            <Button Name="ButtonLogging" Grid.Row="4" Content="Logging" HorizontalAlignment="Left" Margin="50,0,0,0" Height="20" MinHeight="20" Padding="5,0" VerticalAlignment="Center" Click="ButtonLogging_Click" />
+            <Button Name="ButtonDbg" Grid.Row="4" Content="DBG" HorizontalAlignment="Right" Margin="0,0,30,0" Height="20" MinHeight="20" Padding="5,0" VerticalAlignment="Center" Click="ButtonDbg_Click" />
+
+
+        </Grid>
+
+        <Button Grid.Row="0" Grid.Column="1" Name="ButtonSubscribe" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Content="Subscribe reports" MinHeight="20" Padding="5,0" Margin="0,0,0,0" Click="ButtonSubscribe_Click" />
+
+
+        <TextBlock Grid.Column="1" Text="0/0" VerticalAlignment="Bottom" TextAlignment="Right" Name="TextBlockMessagesCount" TextWrapping="Wrap" Grid.Row="4" Height="16"/>
+
+        <DockPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock DockPanel.Dock="Top" Text="Anchors euis" TextAlignment="Center"/>
+            <ListBox Name="ListBoxAnchors" ItemTemplate="{StaticResource ListBoxAnchor}" SelectionChanged="ListBoxAnchors_SelectionChanged" >
+                
+            </ListBox>
+        </DockPanel>
+        
+        <DockPanel Grid.Column="1" Grid.Row="2">
+            <TextBlock DockPanel.Dock="Top" Text="AdvAddrs" TextAlignment="Center"/>
+            <ListBox Name="ListBoxAdvAddrs" ItemTemplate="{StaticResource ListBoxAdvers}" MouseDoubleClick="ListBoxAdvAddrs_MouseDoubleClick" />
+        </DockPanel>
+
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BleIPS", "BleIPS\BleIPS.csproj", "{A8D2936E-0602-4B5B-9CD5-C25208277D3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8D2936E-0602-4B5B-9CD5-C25208277D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D2936E-0602-4B5B-9CD5-C25208277D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D2936E-0602-4B5B-9CD5-C25208277D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D2936E-0602-4B5B-9CD5-C25208277D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AF99459-5365-488C-9963-EBADBC004D9C}
+	EndGlobalSection
+EndGlobal

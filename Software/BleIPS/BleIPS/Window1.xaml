@@ -1,0 +1,43 @@
+﻿<Controls:MetroWindow x:Class="BleIPS.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:BleIPS"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800" MinHeight="300" MinWidth="500" Loaded="MetroWindow_Loaded" Closing="MetroWindow_Closing">
+    <Controls:MetroWindow.Resources>
+        <DataTemplate x:Key ="ListBoxAvgs">
+            <DockPanel Height="24" ToolTip="na">
+                <TextBlock DockPanel.Dock="Left" Text="{Binding Average}" Foreground="{Binding Brush}" FontWeight="SemiBold" Margin="0,0,5,0" Width="50" />
+                <TextBlock DockPanel.Dock="Right" Text="{Binding Std, StringFormat={}{0:F1}}" Foreground="{Binding Brush}" FontWeight="SemiBold" Margin="0,0,5,0" />
+            </DockPanel>
+        </DataTemplate>
+    </Controls:MetroWindow.Resources>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Canvas Name="CanvasPlot" SizeChanged="CanvasPlot_SizeChanged" />
+
+        <StackPanel Grid.Column="1" Margin="10,0">
+            <TextBlock Text="Ant1" Foreground="sc#1, 0     , 0.4470, 0.7410" FontWeight="SemiBold" />
+            <TextBlock Text="Ant2" Foreground="#72BD29" FontWeight="SemiBold" />
+            <TextBlock Text="Ant3" Foreground="sc#1, 0.9290, 0.6940, 0.1250" FontWeight="SemiBold" />
+            <TextBlock Text="Ant4" Foreground="sc#1, 0.4940, 0.1840, 0.5560" FontWeight="SemiBold" />
+
+            <TextBlock Text="Averages" Margin="0,20,0,0" />
+            <ListBox Name="ListBoxAverage" ItemTemplate="{StaticResource ListBoxAvgs}" />
+        </StackPanel>
+
+    </Grid>
+</Controls:MetroWindow>
