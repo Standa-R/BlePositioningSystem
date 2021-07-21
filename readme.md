@@ -4,6 +4,7 @@ The project includes a short description of source code for Anchors and Tags. PC
 
 If the use of this source code for Anchors and Tags or PCB design leading to a scientific publication, please, cite our work:
 
+```
 @article{Polak_Sensors_2021,
      doi = {10.3390/s21134605},
      url = {https://doi.org/10.3390/s21134605},
@@ -17,3 +18,4 @@ If the use of this source code for Anchors and Tags or PCB design leading to a s
      title = {Received Signal Strength Fingerprinting-Based Indoor Location Estimation Employing Machine Learning},
      journal = {Sensors}
 }
+```
